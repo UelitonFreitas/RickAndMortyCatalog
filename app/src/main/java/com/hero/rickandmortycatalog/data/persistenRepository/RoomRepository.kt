@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.hero.rickandmortycatalog.data.Character
+import com.hero.rickandmortycatalog.data.persistenRepository.entities.Character
 import com.hero.rickandmortycatalog.data.CharactersCallback
 import com.hero.rickandmortycatalog.data.RickAndMortyRepository
 import com.hero.rickandmortycatalog.data.persistenRepository.dao.CharacterDAO

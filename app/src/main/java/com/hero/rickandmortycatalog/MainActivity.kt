@@ -1,31 +1,26 @@
 package com.hero.rickandmortycatalog
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.hero.rickandmortycatalog.data.cache.RickAndMortyCache
 import com.hero.rickandmortycatalog.data.networkRepository.RickAndMortyNetworkRepository
 import com.hero.rickandmortycatalog.data.persistenRepository.getDatabase
+import com.hero.rickandmortycatalog.mainScreen.MainScreenViewModel
 
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-
 
         val database = getDatabase(this)
         val repository = RickAndMortyCache(RickAndMortyNetworkRepository(), database)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        val mainViewModel = ViewModelProviders.of(this, MainScreenViewModel.FACTORY(repository))
+            .get(MainScreenViewModel::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
