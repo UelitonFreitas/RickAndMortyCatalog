@@ -18,7 +18,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val database = getDatabase(this)
-        val repository = RickAndMortyCache(RickAndMortyNetworkRepository(), database)
+        val networkRepository = RickAndMortyNetworkRepository()
+        val cache = RickAndMortyCache(networkRepository, database)
+        val repository = RickAndMortyCache(cache, database)
         val mainViewModel = ViewModelProviders.of(this, MainScreenViewModel.FACTORY(repository))
             .get(MainScreenViewModel::class.java)
     }
