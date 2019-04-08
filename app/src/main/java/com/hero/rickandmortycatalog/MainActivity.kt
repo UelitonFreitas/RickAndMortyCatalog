@@ -3,9 +3,12 @@ package com.hero.rickandmortycatalog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.hero.rickandmortycatalog.data.cache.RickAndMortyCache
+import com.hero.rickandmortycatalog.data.RickAndMortyRepository
 import com.hero.rickandmortycatalog.data.networkRepository.RickAndMortyNetworkRepository
 import com.hero.rickandmortycatalog.data.persistenRepository.getDatabase
 import com.hero.rickandmortycatalog.mainScreen.MainScreenViewModel
@@ -13,16 +16,24 @@ import com.hero.rickandmortycatalog.mainScreen.MainScreenViewModel
 
 class MainActivity : AppCompatActivity() {
 
+    val text by lazy { findViewById<TextView>(R.id.text_view) }
+    val spinner by lazy { findViewById<ProgressBar>(R.id.spinner) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val database = getDatabase(this)
         val networkRepository = RickAndMortyNetworkRepository()
-        val cache = RickAndMortyCache(networkRepository, database)
-        val repository = RickAndMortyCache(cache, database)
+        val repository = RickAndMortyRepository(networkRepository, database.characterDao)
         val mainViewModel = ViewModelProviders.of(this, MainScreenViewModel.FACTORY(repository))
             .get(MainScreenViewModel::class.java)
+
+        mainViewModel.characters.observe(this, Observer {
+            it.takeIf { it.isNotEmpty() }?.let {
+                text.text = it.first().name
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

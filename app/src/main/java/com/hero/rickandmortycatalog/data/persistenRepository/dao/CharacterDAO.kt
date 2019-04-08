@@ -13,6 +13,6 @@ interface CharacterDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCharacter(character: Character)
 
-    @Query("select * from Character where id = 0")
+    @Query("select * from Character")
     fun loadCharacters(): LiveData<List<Character>>
 }

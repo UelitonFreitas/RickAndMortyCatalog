@@ -4,19 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.hero.rickandmortycatalog.data.persistenRepository.entities.Character
-import com.hero.rickandmortycatalog.data.CharactersCallback
-import com.hero.rickandmortycatalog.data.RickAndMortyRepository
 import com.hero.rickandmortycatalog.data.persistenRepository.dao.CharacterDAO
+import com.hero.rickandmortycatalog.data.persistenRepository.entities.Character
 
 
 @Database(entities = [Character::class], version = 1, exportSchema = false)
-abstract class RickAndMortyDatabase : RickAndMortyRepository, RoomDatabase() {
+abstract class RickAndMortyDatabase : RoomDatabase() {
     abstract val characterDao: CharacterDAO
-
-    override fun loadCharacters(callback: CharactersCallback) {
-
-    }
 }
 
 private lateinit var INSTANCE: RickAndMortyDatabase
